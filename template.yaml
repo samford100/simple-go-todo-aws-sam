@@ -24,7 +24,9 @@ Resources:
           Properties:
             Path: /todos/{id}
             Method: get
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref todoDB
   GetTodosFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -37,7 +39,9 @@ Resources:
           Properties:
             Path: /todos
             Method: get
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref todoDB
   AddTodoFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -50,7 +54,9 @@ Resources:
           Properties:
             Path: /todos
             Method: post
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref todoDB
   UpdateTodoFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -63,7 +69,9 @@ Resources:
           Properties:
             Path: /todos/{id}
             Method: put
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref todoDB
   DeleteTodoFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -76,7 +84,9 @@ Resources:
           Properties:
             Path: /todos/{id}
             Method: delete
-      Policies: AmazonDynamoDBFullAccess
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref todoDB
 
 Outputs:
   TodoAPI:
