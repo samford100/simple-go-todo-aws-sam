@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "simple-serverless-go-todo"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-y3r1n3ed1rz1"
+s3_prefix = "simple-serverless-go-todo"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []

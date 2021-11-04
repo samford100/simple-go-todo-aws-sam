@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  todoDB:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: todos
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  GetTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetTodoFunction
+      Handler: getTodo
+      Runtime: go1.x
+      Events:
+        getTodoApi:
+          Type: Api
+          Properties:
+            Path: /gettodo
+            Method: get
+      Policies: AmazonDynamoDBFullAccess
+  AddTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: AddTodoFunction
+      Handler: addTodo
+      Runtime: go1.x
+      Events:
+        addTodoApi:
+          Type: Api
+          Properties:
+            Path: /addtodo
+            Method: post
+      Policies: AmazonDynamoDBFullAccess
+Outputs:
+  TodoAPI:
+    Description: API Gateway endpoint URL for Prod environment for GetTodo Function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/gettodo/
+  GetTodoFunction:
+    Description: Get Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - GetTodoFunction
+      - Arn
+  AddTodoFunction:
+    Description: Add Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - AddTodoFunction
+      - Arn

@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  todoDB:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: todos
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  GetTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: getTodo/
+      Handler: getTodo
+      Runtime: go1.x
+      Events:
+        getTodoApi:
+          Type: Api
+          Properties:
+            Path: /gettodo
+            Method: get
+      Policies: AmazonDynamoDBFullAccess
+
+  AddTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: addTodo/
+      Handler: addTodo
+      Runtime: go1.x
+      Events:
+        addTodoApi:
+          Type: Api
+          Properties:
+            Path: /addtodo
+            Method: post
+      Policies: AmazonDynamoDBFullAccess
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  TodoAPI
+    Description: "API Gateway endpoint URL for Prod environment for GetTodo Function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/gettodo/"
+  GetTodoFunction:
+    Description: "Get Lambda Function ARN"
+    Value: !GetAtt GetTodoFunction.Arn
+  AddTodoFunction:
+    Description: "Add Lambda Function ARN"
+    Value: !GetAtt AddTodoFunction.Arn
+#  TodoFunctionIamRole:
+#    Description: "Implicit IAM Role created for Hello World function"
+#    Value: !GetAtt TodoFunctionRole.Arn
