@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Simple todo page</title>
+</head>
+
+<body>
+<button type="button" id="btn" class="btn btn-primary">
+    Fetch Todos
+</button>
+
+<div class="container">
+    <h1>Todo List</h1>
+    <ul id="list"></ul>
+</div>
+
+<script>
+    let btn = document.getElementById("btn");
+    btn.addEventListener("click", buttonclickhandler);
+
+    function buttonclickhandler() {
+        fetch("https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/todos/")
+            .then((response) => {
+                return response.text();
+            })
+            .then((data) => {
+                let list = document.getElementById("list");
+
+                let todos = JSON.parse(data);
+                let str = ""
+                for (let i in todos) {
+                    str += `<li>${todos[i].desc}</li>`;
+                }
+                list.innerHTML = str;
+            });
+    }
+</script>
+
+</body>
+</html>
