@@ -25,7 +25,19 @@ Resources:
             Path: /todos/{id}
             Method: get
       Policies: AmazonDynamoDBFullAccess
-
+  GetTodosFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: getTodos/
+      Handler: getTodos
+      Runtime: go1.x
+      Events:
+        getTodosApi:
+          Type: Api
+          Properties:
+            Path: /todos
+            Method: get
+      Policies: AmazonDynamoDBFullAccess
   AddTodoFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -39,20 +51,34 @@ Resources:
             Path: /todos
             Method: post
       Policies: AmazonDynamoDBFullAccess
+  UpdateTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: updateTodo/
+      Handler: updateTodo
+      Runtime: go1.x
+      Events:
+        addTodoApi:
+          Type: Api
+          Properties:
+            Path: /todos/{id}
+            Method: put
+      Policies: AmazonDynamoDBFullAccess
+  DeleteTodoFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: deleteTodo/
+      Handler: deleteTodo
+      Runtime: go1.x
+      Events:
+        addTodoApi:
+          Type: Api
+          Properties:
+            Path: /todos/{id}
+            Method: delete
+      Policies: AmazonDynamoDBFullAccess
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   TodoAPI:
     Description: "API Gateway endpoint URL for Prod environment for GetTodo Function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/todos"
-  GetTodoFunction:
-    Description: "Get Lambda Function ARN"
-    Value: !GetAtt GetTodoFunction.Arn
-  AddTodoFunction:
-    Description: "Add Lambda Function ARN"
-    Value: !GetAtt AddTodoFunction.Arn
-#  TodoFunctionIamRole:
-#    Description: "Implicit IAM Role created for Hello World function"
-#    Value: !GetAtt TodoFunctionRole.Arn

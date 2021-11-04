@@ -27,6 +27,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	var todo Todo
 	err := json.Unmarshal([]byte(request.Body), &todo)
+	// Never accept the user's ID
 	todo.Id = strconv.Itoa(rand.Intn(10000) + 5)
 
 	if err != nil {
