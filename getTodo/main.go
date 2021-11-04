@@ -23,11 +23,8 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	svc := dynamodb.New(sess)
 
-	id := request.QueryStringParameters["id"]
-	//return events.APIGatewayProxyResponse{
-	//	Body:       id,
-	//	StatusCode: 200,
-	//}, nil
+	//id := request.QueryStringParameters["id"]
+	id := request.PathParameters["id"]
 
 	result, err := svc.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String("todos"),

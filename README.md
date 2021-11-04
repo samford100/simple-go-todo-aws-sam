@@ -8,5 +8,14 @@ Each endpoint maps to a single lambda function handler. Each is in its own folde
 
 Build steps can be found in `build.sh` but probably should not be run as a shell script.
 
-`curl -X POST -d '{"desc":"more todo"}' "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/addtodo"`
-`curl  "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/gettodo?id=1"`
+```shell
+curl -X POST -d '{"desc":"more todo"}' "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/todos"
+curl "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/todos"
+```
+
+```shell
+$ curl -X POST -d '{"desc":"testing easier id"}' "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/todos"
+-> {"id":"8086","desc":"testing easier id"}
+$ curl "https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Prod/todos/8086"                                     
+-> {"id":"8086","desc":"testing easier id"}
+```

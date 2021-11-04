@@ -22,7 +22,7 @@ Resources:
         getTodoApi:
           Type: Api
           Properties:
-            Path: /gettodo
+            Path: /todos/{id}
             Method: get
       Policies: AmazonDynamoDBFullAccess
 
@@ -36,7 +36,7 @@ Resources:
         addTodoApi:
           Type: Api
           Properties:
-            Path: /addtodo
+            Path: /todos
             Method: post
       Policies: AmazonDynamoDBFullAccess
 
@@ -46,7 +46,7 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   TodoAPI:
     Description: "API Gateway endpoint URL for Prod environment for GetTodo Function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/gettodo/"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/todos"
   GetTodoFunction:
     Description: "Get Lambda Function ARN"
     Value: !GetAtt GetTodoFunction.Arn
