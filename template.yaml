@@ -39,11 +39,12 @@ Resources:
             Path: /addtodo
             Method: post
       Policies: AmazonDynamoDBFullAccess
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  TodoAPI
+  TodoAPI:
     Description: "API Gateway endpoint URL for Prod environment for GetTodo Function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/gettodo/"
   GetTodoFunction:

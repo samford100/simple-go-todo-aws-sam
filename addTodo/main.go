@@ -1,9 +1,5 @@
 package main
 
-//https://{restapi_id}.execute-api.{region}.amazonaws.com/{stage_name}/
-//https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/a58sdi/
-//https://cjo5jmgvm3.execute-api.us-east-1.amazonaws.com/Stage
-
 import (
 	"encoding/json"
 	"github.com/aws/aws-lambda-go/events"
@@ -12,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/google/uuid"
 )
 
 type Todo struct {
@@ -27,9 +24,12 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 
 	svc := dynamodb.New(sess)
 
-	todo := Todo{
-		Id:   "1",
-		Desc: "New todo",
+	var todo Todo
+	err := json.Unmarshal([]byte(request.Body), &todo)
+	todo.Id = uuid.New().String()
+
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
 	}
 
 	av, err := dynamodbattribute.MarshalMap(todo)
